@@ -50,17 +50,16 @@ int main(int argc, char* argv[])
         // Obtain user provided information
         else
         {
-                //file_name = argv[1];
+                file_name = argv[1];
                 walk_count = atoi(argv[2]);
                 dampening_ratio = atof(argv[3]);
                 thread_num = atoi(argv[4]);
         }
 
-        //file_name = "facebook.txt";
         ///////////////////////////////////// CREATING THE NETWORK (MATRIX) ////////
-/
+
         // Open stream for reading
-        input_file.open(argv[1], std::ios::in);
+        input_file.open(file_name, std::ios::in);
         if (!input_file.is_open())
         {
                 perror("Failed to open file: ");
@@ -76,8 +75,7 @@ int main(int argc, char* argv[])
 
         create_network(network, input_file);
 		
-        // determing the possible number of times an individual page could have been
- visited
+        // determing the possible number of times an individual page could have beenvisited
         total_possible_visits = walk_count * network->get_num_of_pages();
 
         //////////////////////// PAGE RANK MOTHER FUCKERS //////////////////////////

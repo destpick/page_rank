@@ -55,11 +55,11 @@ public:
 	*/
 	int find_existing_page(int id)
 	{
+		int placement = 0;
 		// If network is empty want to signal that we need to add this new id
 		if (this->complete_list == nullptr)
 		{
 			std::cout << "Empty network." << std::endl;
-			return 0;
 		}
 
 		else
@@ -68,12 +68,12 @@ public:
 			{
 				if (id == this->complete_list[index]->get_page_id())
 				{
-					return 1;
+					placement = 1;
 				}
 			}
 
 		}
-		return 0;
+		return placement;
 	}
 	void remove_duplicate()
 	{
@@ -191,7 +191,7 @@ public:
 	bool coin_flip(double dampening_ratio)
 	{
 		double random_chance = 0.0;
-		srand((int)time(NULL)); // ^ omp_get_thread_num());
+		srand((int)time(NULL) ^ omp_get_thread_num());
 
 		random_chance = ((double)rand()) / RAND_MAX;
 
@@ -204,7 +204,7 @@ public:
 
 	int random_number(int max_length)
 	{
-		srand((int)time(NULL));// ^ omp_get_thread_num());
+		srand((int)time(NULL) ^ omp_get_thread_num());
 
 		return (rand() % max_length);
 
@@ -213,15 +213,13 @@ public:
 	{
 		int start_node = 0;
 		int current_step = 0;
-
-		//#pragma omp parallel for
+		#pragma omp parallel for schedule(static)shared(network, walk_count, dampening_ratio, start_node)
 		for (start_node = 0; start_node < network->get_num_of_pages(); start_node++)
 		{
 			int current_node = start_node;
-			//#pragma omp parallel for
 			for (current_step = 0; current_step < walk_count; current_step++)
 			{
-				//#pragma critical
+				
 				// coin flip == false then must jump to a random neighbors page
 				if (!(coin_flip(dampening_ratio)))
 				{
