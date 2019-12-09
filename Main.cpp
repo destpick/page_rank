@@ -78,8 +78,9 @@ int main(int argc, char* argv[])
         // determing the possible number of times an individual page could have beenvisited
         total_possible_visits = walk_count * network->get_num_of_pages();
 
-        //////////////////////// PAGE RANK MOTHER FUCKERS //////////////////////////
+        //////////////////////// PAGE RANK//////////////////////////
 ///////////
+	std::cout << "running pagerank with " << thread_num << "threads and " << walk_count << " walk count" <<std::endl;
         total_time = omp_get_wtime();
         page_rank(network, walk_count, dampening_ratio);
         total_time = omp_get_wtime() - total_time;

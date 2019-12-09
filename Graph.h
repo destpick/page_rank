@@ -213,7 +213,7 @@ public:
 	{
 		int start_node = 0;
 		int current_step = 0;
-		#pragma omp parallel for schedule(static)shared(network, walk_count, dampening_ratio, start_node)
+		#pragma omp parallel for schedule(static)shared(network, walk_count, dampening_ratio) private(start_node, current_step)
 		for (start_node = 0; start_node < network->get_num_of_pages(); start_node++)
 		{
 			int current_node = start_node;
